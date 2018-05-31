@@ -3,18 +3,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 const serializer_1 = require("./serializer");
-var uuid_1 = require("./types/uuid");
-exports.UUID = uuid_1.UUID;
-var hostname_1 = require("./types/hostname");
-exports.Hostname = hostname_1.Hostname;
-var email_1 = require("./types/email");
-exports.Email = email_1.Email;
-var duration_1 = require("./types/duration");
-exports.Duration = duration_1.Duration;
-var dateTime_1 = require("./types/dateTime");
-exports.DateTime = dateTime_1.DateTime;
-var dateOnly_1 = require("./types/dateOnly");
-exports.DateOnly = dateOnly_1.DateOnly;
 function isSerializable(arg) {
     return utils_1.isObject(arg) && utils_1.isFunction(arg.serialize) && utils_1.isFunction(arg.isEmpty);
 }
