@@ -24,4 +24,4 @@ export { serialize,
     setParams,
 } from 'types';
 export { isArray, isObject, isString, isFunction } from 'utils';
-export {Validator, Type} from './validator';
+export { Validator, Type } from './validator';
