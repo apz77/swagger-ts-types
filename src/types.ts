@@ -4,14 +4,6 @@ import { BaseModel, ModelWithId } from './types/baseModel';
 import { isFunction, isObject } from './utils';
 import { Serializer } from './serializer';
 
-export { BaseModel } from './types/baseModel';
-export { UUID } from './types/uuid';
-export { Hostname } from './types/hostname';
-export { Email } from './types/email';
-export { Duration } from './types/duration';
-export { DateTime } from  './types/dateTime';
-export { DateOnly } from  './types/dateOnly';
-
 // Serializable interface
 export interface Serializable {
   serialize: () => string;
