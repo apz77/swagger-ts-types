@@ -1,0 +1,44 @@
+{
+  "name": "swagger-ts-types",
+  "version": "0.0.1",
+  "description": "Basic types library for interfaces created by swagger-ts-api",
+  "main": "./dist/index.js",
+  "typings": "./typings/index.d.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:apz77/swagger-ts-types.git"
+  },
+  "keywords": [
+    "swagger",
+    "api",
+    "typescript"
+  ],
+  "author": "apz77",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apz77/swagger-ts-types/issues"
+  },
+  "homepage": "https://github.com/apz77/swagger-ts-types#readme",
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0",
+    "typescript": "^2.7.2",
+    "jest": "22.4.3"
+  },
+  "dependencies": {
+    "@types/validator": "^9.4.1",
+    "milliseconds-to-iso-8601-duration": "^0.1.0",
+    "validator": "^10.2.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
+}
