@@ -9,5 +9,5 @@ export * from 'deserializer';
 export * from 'misc';
 export * from 'serializer';
 export * from 'types';
-export * from 'utils';
+export { isArray, isObject, isString, isFunction } from 'utils';
 export * from './validator';
