@@ -8,6 +8,10 @@ describe('DateTime', () => {
         const expected = new Date('2017-05-21T21:58:18Z');
         expect(result).toEqual(expected);
     });
+    it('creates DateTime from undefined', () => {
+        const result = new dateTime_1.DateTime('');
+        expect(result.serialize()).toEqual('');
+    });
     it('creates DateTime from Date', () => {
         const expected = new Date('2017-05-21T21:58:18Z');
         const result = new dateTime_1.DateTime(new Date('2017-05-21T21:58:18Z'));

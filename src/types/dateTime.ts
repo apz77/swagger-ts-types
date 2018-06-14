@@ -24,7 +24,10 @@ export class DateTime extends Date implements Serializable {
   }
 
   public isEmpty(): boolean {
-    const time = this.getTime();
+    let time = 0;
+    try {
+      time = this.getTime();
+    } catch {}
     return time === 0 || isNaN(time);
   }
 }
