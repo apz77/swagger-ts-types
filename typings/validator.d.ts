@@ -5,5 +5,5 @@ export declare module Validator {
      * @param value
      * @return {boolean}
      */
-    function isValidValue(value: any, types: Type[]): boolean;
+    function isValidValue(value: any, types: Type[]): boolean | undefined;
 }

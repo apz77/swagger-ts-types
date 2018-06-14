@@ -45,6 +45,16 @@ export module Validator {
     link: (value: any) => (typeof value === 'string') && !!value,
   };
 
+  function getValidator(type: string, value: any) {
+    if (validatorsMap[type]) {
+      return validatorsMap[type];
+    }
+
+    if (isObject(value)) {
+      return validatorsMap['object'];
+    }
+  }
+
   /**
    * Check, whether value is valid, according to it's metadata
    * @param value
@@ -52,7 +62,7 @@ export module Validator {
    */
   export function isValidValue(value: any, types: Type[]) {
     for (const type of types) {
-      const validator = validatorsMap[type];
+      const validator = getValidator(type, value);
       return validator && validator(value);
     }
 

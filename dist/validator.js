@@ -44,6 +44,14 @@ var Validator;
         enum: (value) => (typeof value === 'string') && !!value,
         link: (value) => (typeof value === 'string') && !!value,
     };
+    function getValidator(type, value) {
+        if (validatorsMap[type]) {
+            return validatorsMap[type];
+        }
+        if (utils_1.isObject(value)) {
+            return validatorsMap['object'];
+        }
+    }
     /**
      * Check, whether value is valid, according to it's metadata
      * @param value
@@ -51,7 +59,7 @@ var Validator;
      */
     function isValidValue(value, types) {
         for (const type of types) {
-            const validator = validatorsMap[type];
+            const validator = getValidator(type, value);
             return validator && validator(value);
         }
         return false;
