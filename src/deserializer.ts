@@ -77,6 +77,16 @@ export module Deserializer {
     link: denormalizeLink,
   };
 
+  function getDenormalizer(type: string, value: any): DenormalizerFunction | undefined {
+    if (denormalizersMap[type]) {
+      return denormalizersMap[type];
+    }
+
+    if (isObject(value)) {
+      return denormalizersMap['object'];
+    }
+  }
+
   export function denormalizeRawModel(rawModel: ModelWithId,
                                       metadata: ModelMetadata,
                                       getModel: GetModelFunc,
@@ -115,7 +125,7 @@ export module Deserializer {
 
     for (const type of fieldMetadata.types) {
       if (Validator.isValidValue(value, [type])) {
-        const denormalizer = denormalizersMap[type];
+        const denormalizer = getDenormalizer(type, value);
         if (denormalizer) {
           return denormalizer(value, fieldMetadata, getModel, isKnownModelType);
         }
@@ -143,11 +153,11 @@ export module Deserializer {
     const errors: string[] = [];
 
     for (const item of value) {
-      const denormalizer = denormalizersMap[fieldMetadata.subType];
-      const isValid = Validator.isValidValue(item, [fieldMetadata.subType]);
+      const denormalizer =  getDenormalizer(fieldMetadata.subType, value);
 
-      if (isValid) {
-        if (denormalizer) {
+      if (denormalizer) {
+        const isValid = Validator.isValidValue(item, [fieldMetadata.subType]);
+        if (isValid) {
           const denormalizerResult = denormalizer(item, fieldMetadata, getModel, isKnownModelType);
           if (denormalizerResult.isOk()) {
             result.push(denormalizerResult.getValue());
@@ -155,11 +165,11 @@ export module Deserializer {
             errors.push(...denormalizerResult.getErrors());
           }
         } else {
-          errors.push(`No mormalizer found for subType ${fieldMetadata.subType}.`);
-          result.push(item);
+          errors.push(`Invalid value ${JSON.stringify(item)} for subType ${fieldMetadata.subType}.`);
         }
       } else {
-        errors.push(`Invalid value ${JSON.stringify(item)} for subType ${fieldMetadata.subType}.`);
+        errors.push(`No mormalizer found for subType ${fieldMetadata.subType}.`);
+        result.push(item);
       }
     }
 

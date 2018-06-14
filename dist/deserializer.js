@@ -59,6 +59,14 @@ var Deserializer;
         array: denormalizeArray,
         link: denormalizeLink,
     };
+    function getDenormalizer(type, value) {
+        if (denormalizersMap[type]) {
+            return denormalizersMap[type];
+        }
+        if (utils_1.isObject(value)) {
+            return denormalizersMap['object'];
+        }
+    }
     function denormalizeRawModel(rawModel, metadata, getModel, isKnownModelType) {
         const model = {};
         const result = new DeserializeResult(model);
@@ -85,7 +93,7 @@ var Deserializer;
         }
         for (const type of fieldMetadata.types) {
             if (validator_1.Validator.isValidValue(value, [type])) {
-                const denormalizer = denormalizersMap[type];
+                const denormalizer = getDenormalizer(type, value);
                 if (denormalizer) {
                     return denormalizer(value, fieldMetadata, getModel, isKnownModelType);
                 }
@@ -101,10 +109,10 @@ var Deserializer;
         const result = [];
         const errors = [];
         for (const item of value) {
-            const denormalizer = denormalizersMap[fieldMetadata.subType];
-            const isValid = validator_1.Validator.isValidValue(item, [fieldMetadata.subType]);
-            if (isValid) {
-                if (denormalizer) {
+            const denormalizer = getDenormalizer(fieldMetadata.subType, value);
+            if (denormalizer) {
+                const isValid = validator_1.Validator.isValidValue(item, [fieldMetadata.subType]);
+                if (isValid) {
                     const denormalizerResult = denormalizer(item, fieldMetadata, getModel, isKnownModelType);
                     if (denormalizerResult.isOk()) {
                         result.push(denormalizerResult.getValue());
@@ -114,12 +122,12 @@ var Deserializer;
                     }
                 }
                 else {
-                    errors.push(`No mormalizer found for subType ${fieldMetadata.subType}.`);
-                    result.push(item);
+                    errors.push(`Invalid value ${JSON.stringify(item)} for subType ${fieldMetadata.subType}.`);
                 }
             }
             else {
-                errors.push(`Invalid value ${JSON.stringify(item)} for subType ${fieldMetadata.subType}.`);
+                errors.push(`No mormalizer found for subType ${fieldMetadata.subType}.`);
+                result.push(item);
             }
         }
         return new DeserializeResult(result, errors);
