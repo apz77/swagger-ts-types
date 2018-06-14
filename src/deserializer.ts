@@ -153,7 +153,7 @@ export module Deserializer {
     const errors: string[] = [];
 
     for (const item of value) {
-      const denormalizer =  getDenormalizer(fieldMetadata.subType, value);
+      const denormalizer =  getDenormalizer(fieldMetadata.subType, item);
 
       if (denormalizer) {
         const isValid = Validator.isValidValue(item, [fieldMetadata.subType]);

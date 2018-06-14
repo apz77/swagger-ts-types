@@ -109,7 +109,7 @@ var Deserializer;
         const result = [];
         const errors = [];
         for (const item of value) {
-            const denormalizer = getDenormalizer(fieldMetadata.subType, value);
+            const denormalizer = getDenormalizer(fieldMetadata.subType, item);
             if (denormalizer) {
                 const isValid = validator_1.Validator.isValidValue(item, [fieldMetadata.subType]);
                 if (isValid) {
