@@ -13,9 +13,9 @@ class DateOnly {
         this.month = 0;
         this.day = 0;
         if (dateTime_1.isDateTime(value)) {
-            this.year = value.getUTCFullYear();
-            this.month = value.getUTCMonth();
-            this.day = value.getUTCDate();
+            this.year = value.getDate().getUTCFullYear();
+            this.month = value.getDate().getUTCMonth();
+            this.day = value.getDate().getUTCDate();
         }
         else if (isDateOnly(value)) {
             this.year = value.year && value.year >= 1970 ? value.year : 0;

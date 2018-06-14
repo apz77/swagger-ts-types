@@ -1,26 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const dateOnly_1 = require("./dateOnly");
-class DateTime extends Date {
+class DateTime {
+    constructor(value) {
+        this.date = new Date(0);
+        if (isDateTime(value)) {
+            this.date = new Date(value.getTime());
+        }
+        else if (value instanceof Date) {
+            this.date = new Date(value.getTime());
+        }
+        else if (dateOnly_1.isDateOnly(value)) {
+            this.date = new Date(value.year, value.month - 1, value.day);
+        }
+        else if (typeof value === 'string') {
+            this.date = new Date(DateTime.isValisSerialized(value) ? value : (new Date(0)).toISOString());
+        }
+    }
     static isValisSerialized(value) {
         return !isNaN((new Date(value)).getTime());
     }
-    constructor(value) {
-        if (isDateTime(value)) {
-            super(value.getTime());
-        }
-        else if (value instanceof Date) {
-            super(value.getTime());
-        }
-        else if (dateOnly_1.isDateOnly(value)) {
-            super(value.year, value.month - 1, value.day);
-        }
-        else if (typeof value === 'string') {
-            super(DateTime.isValisSerialized(value) ? value : (new Date(0)).toISOString());
-        }
+    getTime() {
+        return this.date.getTime();
+    }
+    getDate() {
+        return this.date;
     }
     serialize() {
-        return this.isEmpty() ? '' : this.toISOString();
+        return this.isEmpty() ? '' : this.date.toISOString();
     }
     isEmpty() {
         let time = 0;

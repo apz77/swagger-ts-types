@@ -26,9 +26,9 @@ export class DateOnly implements Serializable {
     this.day = 0;
 
     if (isDateTime(value)) {
-      this.year = value.getUTCFullYear();
-      this.month = value.getUTCMonth();
-      this.day = value.getUTCDate();
+      this.year = value.getDate().getUTCFullYear();
+      this.month = value.getDate().getUTCMonth();
+      this.day = value.getDate().getUTCDate();
     } else if (isDateOnly(value)) {
       this.year = value.year && value.year >= 1970 ? value.year : 0;
       this.month = value.month && value.month < 12 && value.day > 0 ? value.month : 0;

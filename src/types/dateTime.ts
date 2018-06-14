@@ -1,26 +1,36 @@
 import { Serializable } from '../types';
 import { DateOnly, isDateOnly } from './dateOnly';
 
-export class DateTime extends Date implements Serializable {
+export class DateTime implements Serializable {
 
   static isValisSerialized(value: string): boolean {
     return !isNaN((new Date(value)).getTime());
   }
 
+  protected date: Date = new Date(0);
+
   constructor(value: string | Date | DateOnly | DateTime) {
     if (isDateTime(value)) {
-      super(value.getTime());
+      this.date = new Date(value.getTime());
     } else if (value instanceof Date) {
-      super(value.getTime());
+      this.date = new Date(value.getTime());
     } else if (isDateOnly(value)) {
-      super(value.year, value.month - 1, value.day);
+      this.date = new Date(value.year, value.month - 1, value.day);
     } else if (typeof value === 'string') {
-      super(DateTime.isValisSerialized(value) ? value : (new Date(0)).toISOString());
+      this.date = new Date(DateTime.isValisSerialized(value) ? value : (new Date(0)).toISOString());
     }
   }
 
+  public getTime() {
+    return this.date.getTime();
+  }
+
+  public getDate() {
+    return this.date;
+  }
+
   public serialize(): string {
-    return this.isEmpty() ? '' : this.toISOString();
+    return this.isEmpty() ? '' : this.date.toISOString();
   }
 
   public isEmpty(): boolean {
