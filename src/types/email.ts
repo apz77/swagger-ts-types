@@ -1,5 +1,5 @@
 import { Serializable } from '../types';
-import { isEmail } from 'validator';
+import * as isEmail from 'validator/lib/isEmail';
 
 export class Email implements Serializable {
 
