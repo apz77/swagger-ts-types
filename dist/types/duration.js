@@ -58,7 +58,7 @@ class Duration {
         }
     }
     static isValidSerialized(value) {
-        return value === '' || !(new Duration(value)).isEmpty();
+        return typeof value === 'string';
     }
     isEmpty() {
         return !this.years && !this.months && !this.weeks && !this.days && !this.hours && !this.minutes && !this.seconds;

@@ -33,7 +33,7 @@ export class Duration implements Serializable {
   public seconds: number = 0;
 
   static isValidSerialized(value: string): boolean {
-    return value === '' || !(new Duration(value)).isEmpty();
+    return typeof value === 'string';
   }
 
   /**
