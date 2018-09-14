@@ -17,7 +17,7 @@ export module Serializer {
    * Serializes known value types
    * @param {ValueTypes} value
    */
-  export function serializeValue(value: SerializableTypes, type: FieldMetadata | string | null): any {
+  export function serializeValue(value: SerializableTypes, type: FieldMetadata | string | null = null): any {
 
     // Order of "if"s is critical
 

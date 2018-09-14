@@ -12,5 +12,5 @@ export declare module Serializer {
      * Serializes known value types
      * @param {ValueTypes} value
      */
-    function serializeValue(value: SerializableTypes, type: FieldMetadata | string | null): any;
+    function serializeValue(value: SerializableTypes, type?: FieldMetadata | string | null): any;
 }

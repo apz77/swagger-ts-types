@@ -9,7 +9,7 @@ var Serializer;
      * Serializes known value types
      * @param {ValueTypes} value
      */
-    function serializeValue(value, type) {
+    function serializeValue(value, type = null) {
         // Order of "if"s is critical
         if (types_1.isSerializable(value)) {
             return value.serialize();
