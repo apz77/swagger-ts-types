@@ -1,4 +1,4 @@
-import { FolderType, InvitationStatus, isSerializable, Permit } from './types';
+import {FieldMetadata, FolderType, InvitationStatus, isFieldMetadata, isSerializable, Permit} from './types';
 import { UUID } from './types/uuid';
 import { Email } from './types/email';
 import { Hostname } from './types/hostname';
@@ -17,7 +17,7 @@ export module Serializer {
    * Serializes known value types
    * @param {ValueTypes} value
    */
-  export function serializeValue(value: SerializableTypes): any {
+  export function serializeValue(value: SerializableTypes, type: FieldMetadata | string | null): any {
 
     // Order of "if"s is critical
 
@@ -25,18 +25,19 @@ export module Serializer {
       return value.serialize();
     }
 
-    if (isModelWithId(value)) {
+    // TODO: type === 'object' is special case, until we make recursive metadata
+    if (isModelWithId(value) && type !== 'object') {
       return value.id;
     }
 
     if (Array.isArray(value)) {
-      return value.map(val => serializeValue(val));
+      return value.map(val => serializeValue(val, isFieldMetadata(type) ? type.subType : null));
     }
 
     if (value && isObject(value)) {
       const serialized: {[key: string]: any} = {};
       for (const propName in value as {[key: string]: any}) {
-        serialized[propName] = serializeValue((value as {[key: string]: any})[propName]);
+        serialized[propName] = serializeValue((value as {[key: string]: any})[propName], null);
       }
       return serialized;
     }

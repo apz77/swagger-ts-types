@@ -187,7 +187,8 @@ describe('Deserializer ', () => {
 
   it('not denormalize bad Duration', () => {
     const raw = '**&^&*^%&^%&$abclkj';
-    badExpects(raw, ['Duration']);
+    const expected  = new Duration();
+    goodExpects(raw, expected, ['Duration']);
   });
 
 

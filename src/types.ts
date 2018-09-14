@@ -24,7 +24,7 @@ export function setParams(url: string,
   for (const fieldName in fields) {
     result = result.replace(
       `{${fields[fieldName].apiField}}`,
-      Serializer.serializeValue(params[fieldName]),
+      Serializer.serializeValue(params[fieldName], null),
     );
   }
   return result;
@@ -52,9 +52,9 @@ export function serialize(value: BaseModel, metadata: ModelMetadata[]): string {
   for (const fieldName in value) {
     const fieldMetadata = getFieldOfMetadata(fieldName, metadata);
     if (fieldMetadata) {
-      result[fieldMetadata.apiField] = Serializer.serializeValue(value[fieldName]);
+      result[fieldMetadata.apiField] = Serializer.serializeValue(value[fieldName], fieldMetadata);
     } else {
-      result[fieldName] = Serializer.serializeValue(value[fieldName]);
+      result[fieldName] = Serializer.serializeValue(value[fieldName], fieldMetadata);
     }
   }
 

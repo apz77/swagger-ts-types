@@ -19,5 +19,6 @@
     "noImplicitThis": true
   },
   "include": ["./src/"],
+  "exclude": ["./src/**/*.spec.ts"],
   "compileOnSave": true
 }
