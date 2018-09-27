@@ -69,7 +69,10 @@ class Duration {
      * @return {number}
      */
     getMS() {
-        const { days, hours, minutes, seconds } = this;
+        const { days, hours, minutes, seconds, months, years } = this;
+        if (months || years) {
+            throw new Error(`${months ? `Months === ${months}` : ''} ${years ? `,Years === ${years}` : ''} are date dependant`);
+        }
         // TODO for weeks, years, months
         return (seconds + minutes * 60 + hours * 60 * 60 + days * 24 * 60 * 60) * 1000;
     }
@@ -78,7 +81,13 @@ class Duration {
      * @return {string}
      */
     serialize() {
-        return millisecondsToIso8601Duration.iso8601duration(this.getMS());
+        try {
+            const ms = this.getMS();
+            return millisecondsToIso8601Duration.iso8601duration(ms);
+        }
+        catch (error) {
+            throw new Error(error);
+        }
     }
     /**
      * @deprecated move to i18n
