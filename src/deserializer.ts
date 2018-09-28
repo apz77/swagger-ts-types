@@ -7,7 +7,7 @@ import { UUID } from './types/uuid';
 import { Hostname } from './types/hostname';
 import { DateOnly } from './types/dateOnly';
 import { Validator } from './validator';
-import { isObject } from './utils';
+import { isObject, isString } from './utils';
 
 export class DeserializeResult {
   protected value: any;
@@ -86,7 +86,7 @@ export module Deserializer {
       return denormalizersMap['object'];
     }
 
-    return denormalizeLink;
+    return void 0;
   }
 
   export function denormalizeRawModel(rawModel: ModelWithId,
@@ -153,12 +153,19 @@ export module Deserializer {
   ): DeserializeResult {
     const result: any = [];
     const errors: string[] = [];
+    let { subType } = fieldMetadata;
 
     for (const item of value) {
-      const denormalizer =  getDenormalizer(fieldMetadata.subType, item);
+      let denormalizer =  getDenormalizer(subType, item);
+
+      // Special case for links
+      if (!denormalizer && isString(fieldMetadata.subType)) {
+        denormalizer = denormalizeLink;
+        subType = 'link';
+      }
 
       if (denormalizer) {
-        const isValid = Validator.isValidValue(item, [fieldMetadata.subType]);
+        const isValid = Validator.isValidValue(item, [subType]);
         if (isValid) {
           const denormalizerResult = denormalizer(item, fieldMetadata, getModel, isKnownModelType);
           if (denormalizerResult.isOk()) {

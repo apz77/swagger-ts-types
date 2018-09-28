@@ -66,7 +66,7 @@ var Deserializer;
         if (utils_1.isObject(value)) {
             return denormalizersMap['object'];
         }
-        return denormalizeLink;
+        return void 0;
     }
     function denormalizeRawModel(rawModel, metadata, getModel, isKnownModelType) {
         const model = {};
@@ -109,10 +109,16 @@ var Deserializer;
     function denormalizeArray(value, fieldMetadata, getModel, isKnownModelType) {
         const result = [];
         const errors = [];
+        let { subType } = fieldMetadata;
         for (const item of value) {
-            const denormalizer = getDenormalizer(fieldMetadata.subType, item);
+            let denormalizer = getDenormalizer(subType, item);
+            // Special case for links
+            if (!denormalizer && utils_1.isString(fieldMetadata.subType)) {
+                denormalizer = denormalizeLink;
+                subType = 'link';
+            }
             if (denormalizer) {
-                const isValid = validator_1.Validator.isValidValue(item, [fieldMetadata.subType]);
+                const isValid = validator_1.Validator.isValidValue(item, [subType]);
                 if (isValid) {
                     const denormalizerResult = denormalizer(item, fieldMetadata, getModel, isKnownModelType);
                     if (denormalizerResult.isOk()) {
