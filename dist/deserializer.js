@@ -66,6 +66,7 @@ var Deserializer;
         if (utils_1.isObject(value)) {
             return denormalizersMap['object'];
         }
+        return denormalizeLink;
     }
     function denormalizeRawModel(rawModel, metadata, getModel, isKnownModelType) {
         const model = {};

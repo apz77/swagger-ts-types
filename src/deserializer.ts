@@ -85,6 +85,8 @@ export module Deserializer {
     if (isObject(value)) {
       return denormalizersMap['object'];
     }
+
+    return denormalizeLink;
   }
 
   export function denormalizeRawModel(rawModel: ModelWithId,
