@@ -31,4 +31,16 @@ describe('Duration', () => {
     expect(duration.serialize()).toEqual(expected);
   });
 
-})
+  it('should throw Error trying to getMS', () => {
+    const duration = new Duration({ months: 1 });
+    const getGetMSFunction = () => () => duration.getMS();
+    expect(getGetMSFunction()).toThrowError(Error);
+  });
+
+  it('should throw Error trying to serialize', () => {
+    const duration = new Duration({ months: 1 });
+    const getGetMSFunction = () => () => duration.serialize();
+    expect(getGetMSFunction()).toThrowError(Error);
+  });
+
+});
