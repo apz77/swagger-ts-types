@@ -87,7 +87,7 @@ export interface FieldMetadata {
   subType: string;
   isRequired: boolean;
   apiField: string;
-  inPath?: true;
+  inPath?: boolean;
 }
 
 export function isFieldMetadata(arg: any): arg is FieldMetadata {
