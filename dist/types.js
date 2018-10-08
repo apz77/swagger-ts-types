@@ -37,7 +37,9 @@ function serialize(value, metadata) {
     for (const fieldName in value) {
         const fieldMetadata = getFieldOfMetadata(fieldName, metadata);
         if (fieldMetadata) {
-            result[fieldMetadata.apiField] = serializer_1.Serializer.serializeValue(value[fieldName], fieldMetadata);
+            if (!fieldMetadata.inPath) {
+                result[fieldMetadata.apiField] = serializer_1.Serializer.serializeValue(value[fieldName], fieldMetadata);
+            }
         }
         else {
             result[fieldName] = serializer_1.Serializer.serializeValue(value[fieldName], fieldMetadata);

@@ -52,7 +52,9 @@ export function serialize(value: BaseModel, metadata: ModelMetadata[]): string {
   for (const fieldName in value) {
     const fieldMetadata = getFieldOfMetadata(fieldName, metadata);
     if (fieldMetadata) {
-      result[fieldMetadata.apiField] = Serializer.serializeValue(value[fieldName], fieldMetadata);
+      if (!fieldMetadata.inPath) {
+        result[fieldMetadata.apiField] = Serializer.serializeValue(value[fieldName], fieldMetadata);
+      }
     } else {
       result[fieldName] = Serializer.serializeValue(value[fieldName], fieldMetadata);
     }
@@ -85,6 +87,7 @@ export interface FieldMetadata {
   subType: string;
   isRequired: boolean;
   apiField: string;
+  inPath?: true;
 }
 
 export function isFieldMetadata(arg: any): arg is FieldMetadata {
