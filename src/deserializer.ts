@@ -1,5 +1,5 @@
 import { ModelWithId } from './types/baseModel';
-import { FieldMetadata, FolderType, InvitationStatus, ModelMetadata, Permit } from './types';
+import { FieldMetadata, FolderType, InvitationStatus, ModelMetadata } from './types';
 import { Duration } from './types/duration';
 import { DateTime } from './types/dateTime';
 import { Email } from './types/email';
@@ -63,7 +63,7 @@ export module Deserializer {
     string: (value: any) => new DeserializeResult(value),
     number: (value: any) => new DeserializeResult(value),
     boolean: (value: any) => new DeserializeResult(value),
-    Permit: (value: any) => new DeserializeResult(Permit[value]),
+    Permit: (value: any) => new DeserializeResult(value),
     FolderType: (value: any) => new DeserializeResult(FolderType[value]),
     InvitationStatus: (value: any) => new DeserializeResult(InvitationStatus[value]),
     JSON: (value: any) => new DeserializeResult(value),

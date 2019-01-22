@@ -47,7 +47,7 @@ var Deserializer;
         string: (value) => new DeserializeResult(value),
         number: (value) => new DeserializeResult(value),
         boolean: (value) => new DeserializeResult(value),
-        Permit: (value) => new DeserializeResult(types_1.Permit[value]),
+        Permit: (value) => new DeserializeResult(value),
         FolderType: (value) => new DeserializeResult(types_1.FolderType[value]),
         InvitationStatus: (value) => new DeserializeResult(types_1.InvitationStatus[value]),
         JSON: (value) => new DeserializeResult(value),
