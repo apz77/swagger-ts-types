@@ -45,14 +45,14 @@ export interface GetModelFunc {
 }
 
 export module Deserializer {
-
-  type DenormalizerFunction = (value: any,
-                               fieldMetadata: FieldMetadata,
-                               getModel: GetModelFunc,
-                               isKnownModelType: (arg: any) => boolean,
+  type DenormalizerFunction = (
+    value: any,
+    fieldMetadata: FieldMetadata,
+    getModel: GetModelFunc,
+    isKnownModelType: (arg: any) => boolean
   ) => DeserializeResult;
 
-  const denormalizersMap: {[key: string]: DenormalizerFunction} = {
+  const denormalizersMap: { [key: string]: DenormalizerFunction } = {
     UUID: (value: any) => new DeserializeResult(new UUID(value)),
     Email: (value: any) => new DeserializeResult(new Email(value)),
     Hostname: (value: any) => new DeserializeResult(new Hostname(value)),
@@ -89,19 +89,19 @@ export module Deserializer {
     return void 0;
   }
 
-  export function denormalizeRawModel(rawModel: ModelWithId,
-                                      metadata: ModelMetadata,
-                                      getModel: GetModelFunc,
-                                      isKnownModelType: (arg: any) => boolean,
+  export function denormalizeRawModel(
+    rawModel: ModelWithId,
+    metadata: ModelMetadata,
+    getModel: GetModelFunc,
+    isKnownModelType: (arg: any) => boolean
   ): DeserializeResult {
-
     const model: any = {};
     const result = new DeserializeResult(model);
 
     if (isObject(rawModel)) {
       for (const fieldName in metadata.fields) {
         const fieldMetadata = metadata.fields[fieldName];
-        const value = rawModel[fieldMetadata.apiField];
+        const value = (rawModel as any)[fieldMetadata.apiField];
         if (fieldMetadata.isRequired || value !== void 0) {
           const denormalizeResult = Deserializer.denormalizeProp(value, fieldMetadata, getModel, isKnownModelType);
           model[fieldMetadata.name] = denormalizeResult.getValue();
@@ -115,12 +115,12 @@ export module Deserializer {
     return result;
   }
 
-  export function denormalizeProp(value: any,
-                                  fieldMetadata: FieldMetadata,
-                                  getModel: GetModelFunc,
-                                  isKnownModelType: (arg: any) => boolean,
+  export function denormalizeProp(
+    value: any,
+    fieldMetadata: FieldMetadata,
+    getModel: GetModelFunc,
+    isKnownModelType: (arg: any) => boolean
   ): DeserializeResult {
-
     if (fieldMetadata.isRequired && value === void 0) {
       return new DeserializeResult(value, `Required field ${fieldMetadata.apiField} is undefined.`);
     }
@@ -134,7 +134,7 @@ export module Deserializer {
         return new DeserializeResult(
           void 0,
           `No denormalizer for ${type} found` +
-          `of ${JSON.stringify(value)} for field ${JSON.stringify(fieldMetadata)} `,
+            `of ${JSON.stringify(value)} for field ${JSON.stringify(fieldMetadata)} `
         );
       }
     }
@@ -142,21 +142,22 @@ export module Deserializer {
     return new DeserializeResult(
       void 0,
       `Bad type or value ${JSON.stringify(fieldMetadata.types)} ` +
-      `of ${JSON.stringify(value)} for field ${JSON.stringify(fieldMetadata)} `,
+        `of ${JSON.stringify(value)} for field ${JSON.stringify(fieldMetadata)} `
     );
   }
 
-  export function denormalizeArray(value: any[],
-                                   fieldMetadata: FieldMetadata,
-                                   getModel: GetModelFunc,
-                                   isKnownModelType: (arg: any) => boolean,
+  export function denormalizeArray(
+    value: any[],
+    fieldMetadata: FieldMetadata,
+    getModel: GetModelFunc,
+    isKnownModelType: (arg: any) => boolean
   ): DeserializeResult {
     const result: any = [];
     const errors: string[] = [];
     let { subType } = fieldMetadata;
 
     for (const item of value) {
-      let denormalizer =  getDenormalizer(subType, item);
+      let denormalizer = getDenormalizer(subType, item);
 
       // Special case for links
       if (!denormalizer && isString(fieldMetadata.subType)) {
@@ -185,22 +186,16 @@ export module Deserializer {
     return new DeserializeResult(result, errors);
   }
 
-  export function denormalizeLink(value: any,
-                                  fieldMetadata: FieldMetadata,
-                                  getModel: GetModelFunc,
-                                  isKnownModelType: (arg: any) => boolean,
-  ): DeserializeResult  {
-
+  export function denormalizeLink(
+    value: any,
+    fieldMetadata: FieldMetadata,
+    getModel: GetModelFunc,
+    isKnownModelType: (arg: any) => boolean
+  ): DeserializeResult {
     if (isKnownModelType(fieldMetadata.subType)) {
-      return new DeserializeResult(
-        getModel(fieldMetadata.subType, value),
-      );
+      return new DeserializeResult(getModel(fieldMetadata.subType, value));
     }
 
-    return new DeserializeResult(
-      void 0,
-      `Unknown ModelType ${fieldMetadata.subType}`,
-    );
+    return new DeserializeResult(void 0, `Unknown ModelType ${fieldMetadata.subType}`);
   }
-
 }

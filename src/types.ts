@@ -14,18 +14,16 @@ export function isSerializable(arg: any): arg is Serializable {
   return isObject(arg) && isFunction(arg.serialize) && isFunction(arg.isEmpty);
 }
 
-export function setParams(url: string,
-                          params: {[key: string]: Serializer.SerializableTypes},
-                          metadata: ModelMetadata): string {
-
+export function setParams(
+  url: string,
+  params: { [key: string]: Serializer.SerializableTypes },
+  metadata: ModelMetadata
+): string {
   const { fields } = metadata;
   let result = url;
 
   for (const fieldName in fields) {
-    result = result.replace(
-      `{${fields[fieldName].apiField}}`,
-      Serializer.serializeValue(params[fieldName], null),
-    );
+    result = result.replace(`{${fields[fieldName].apiField}}`, Serializer.serializeValue(params[fieldName], null));
   }
   return result;
 }
@@ -53,10 +51,10 @@ export function serialize(value: BaseModel, metadata: ModelMetadata[]): string {
     const fieldMetadata = getFieldOfMetadata(fieldName, metadata);
     if (fieldMetadata) {
       if (!fieldMetadata.inPath) {
-        result[fieldMetadata.apiField] = Serializer.serializeValue(value[fieldName], fieldMetadata);
+        (result as any)[fieldMetadata.apiField] = Serializer.serializeValue((value as any)[fieldName], fieldMetadata);
       }
     } else {
-      result[fieldName] = Serializer.serializeValue(value[fieldName], fieldMetadata);
+      (result as any)[fieldName] = Serializer.serializeValue((value as any)[fieldName], fieldMetadata);
     }
   }
 
@@ -97,7 +95,7 @@ export function isFieldMetadata(arg: any): arg is FieldMetadata {
 export interface ModelMetadata {
   modelType: string;
   emptyModel: {};
-  fields: {[key: string]: FieldMetadata};
+  fields: { [key: string]: FieldMetadata };
 }
 
 export function isModelMetadata(arg: any): arg is ModelMetadata {

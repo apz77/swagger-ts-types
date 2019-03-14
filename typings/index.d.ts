@@ -8,6 +8,6 @@ export { UUID } from './types/uuid';
 export { Deserializer, DeserializeResult, GetModelFunc } from './deserializer';
 export { zeroPadNumber } from './misc';
 export { Serializer } from './serializer';
-export { serialize, FieldMetadata, ModelMetadata, Serializable, InvitationStatus, FolderType, Permit, isNewModel, newModelId, isFieldMetadata, isModelMetadata, isSerializable, setParams } from './types';
+export { serialize, FieldMetadata, ModelMetadata, Serializable, InvitationStatus, FolderType, Permit, isNewModel, newModelId, isFieldMetadata, isModelMetadata, isSerializable, setParams, } from './types';
 export { isArray, isObject, isString, isFunction } from './utils';
 export { Validator, Type } from './validator';

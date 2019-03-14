@@ -1,7 +1,7 @@
-/// <reference path="../../.typings/index.d.ts" />
 /**
  * Duration type and helpers to validate, normalize, serialize it
  */
+/// <reference path="../../.typings/index.d.ts" />
 import { Serializable } from '../types';
 export interface IDurationInitializer {
     years?: number;

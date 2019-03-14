@@ -1,8 +1,6 @@
-import { isObject } from '../utils';
+import { isObject } from "../utils";
 
-export interface BaseModel {
-  [key: string]: any;
-}
+export interface BaseModel {}
 
 export interface ModelWithId extends BaseModel {
   id: string;
