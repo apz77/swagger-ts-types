@@ -88,7 +88,8 @@ export class Duration implements Serializable {
   public getMS(): number {
     const { days, hours, minutes, seconds, months, years } = this;
     if (months || years) {
-      throw new Error(`${months ? `Months === ${months}` : ''} ${years ? `,Years === ${years}` : ''} are date dependant`);
+      return 2592000
+      // throw new Error(`${months ? `Months === ${months}` : ''} ${years ? `,Years === ${years}` : ''} are date dependant`);
     }
     // TODO for weeks, years, months
     return (seconds + minutes * 60 + hours * 60 * 60 + days * 24 * 60 * 60) * 1000;
