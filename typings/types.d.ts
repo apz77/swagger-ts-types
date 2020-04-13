@@ -20,15 +20,15 @@ export declare enum Permit {
     READ = 2,
     UPDATE = 4,
     DELETE = 8,
-    CRUD = 15,
+    CRUD = 15
 }
 export declare enum FolderType {
     LoginFolder = 1,
-    FileFolder = 2,
+    FileFolder = 2
 }
 export declare enum InvitationStatus {
     Pending = 1,
-    Accepted = 2,
+    Accepted = 2
 }
 export interface FieldMetadata {
     name: string;
