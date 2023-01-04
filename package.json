@@ -25,8 +25,8 @@
   "homepage": "https://github.com/apz77/swagger-ts-types#readme",
   "devDependencies": {
     "@types/jest": "^22.2.3",
-    "jest": "22.4.3",
-    "ts-jest": "^23.1.4",
+    "jest": "29.3.1",
+    "ts-jest": "^23.10.5",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.7.2"
